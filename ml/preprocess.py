@@ -4,17 +4,8 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import os
 
-# Ensure nltk data is downloaded
-def download_nltk_data():
-    try:
-        nltk.data.find('tokenizers/punkt_tab')
-        nltk.data.find('corpora/wordnet')
-    except LookupError:
-        nltk.download('punkt')
-        nltk.download('punkt_tab')
-        nltk.download('wordnet')
-
-download_nltk_data()
+# Ensure nltk data is handled properly for Vercel
+# The paths are configured in api/index.py, so we don't need to download on every import.
 
 lemmatizer = WordNetLemmatizer()
 
