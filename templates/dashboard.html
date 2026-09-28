@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - EduFeedback AI{% endblock %}
+
+{% block content %}
+<section class="page-section dashboard-section">
+    <div class="container-main">
+        <div class="dashboard-header">
+            <h2>Feedback Analytics</h2>
+            <a href="{{ url_for('main.export_csv') }}" class="btn btn-secondary btn-export interactive-3d">
+                <span class="icon">↓</span> Export CSV
+            </a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card card-3d stat-positive" tabindex="0" role="button" aria-label="Total Feedback: {{ total }}">
+                <div class="stat-value">{{ total }}</div>
+                <h3 class="stat-label">Total Feedback</h3>
+                <p class="stat-desc">All collected responses</p>
+            </div>
+            <div class="stat-card card-3d stat-positive" tabindex="0" role="button" aria-label="Positive Feedback: {{ positive }}">
+                <div class="stat-value">{{ positive }}</div>
+                <h3 class="stat-label">Positive</h3>
+                <p class="stat-desc">Favorable sentiment</p>
+            </div>
+            <div class="stat-card card-3d stat-neutral" tabindex="0" role="button" aria-label="Neutral Feedback: {{ neutral }}">
+                <div class="stat-value">{{ neutral }}</div>
+                <h3 class="stat-label">Neutral</h3>
+                <p class="stat-desc">Mixed or factual</p>
+            </div>
+            <div class="stat-card card-3d stat-negative" tabindex="0" role="button" aria-label="Negative Feedback: {{ negative }}">
+                <div class="stat-value">{{ negative }}</div>
+                <h3 class="stat-label">Negative</h3>
+                <p class="stat-desc">Unfavorable sentiment</p>
+            </div>
+        </div>
+
+        <div class="absa-stats-grid">
+            <div class="absa-stat-card neutral card-3d" tabindex="0" role="region" aria-label="Most Discussed Aspects">
+                <h3>MOST DISCUSSED ASPECTS</h3>
+                <ul>
+                    {% for aspect, count in top_aspects %}
+                    <li>
+                        <span>{{ aspect }}</span>
+                        <span>{{ count }}</span>
+                    </li>
+                    {% else %}
+                    <li><span>No data available</span><span>—</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="absa-stat-card negative card-3d" tabindex="0" role="region" aria-label="Negative Aspects">
+                <h3>NEGATIVE ASPECTS</h3>
+                <ul>
+                    {% for aspect, pct in top_neg_aspects %}
+                    <li>
+                        <span>{{ aspect }}</span>
+                        <span>{{ "%.0f"|format(pct) }}%</span>
+                    </li>
+                    {% else %}
+                    <li><span>No data available</span><span>—</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="absa-stat-card positive card-3d" tabindex="0" role="region" aria-label="Positive Aspects">
+                <h3>POSITIVE ASPECTS</h3>
+                <ul>
+                    {% for aspect, pct in top_pos_aspects %}
+                    <li>
+                        <span>{{ aspect }}</span>
+                        <span>{{ "%.0f"|format(pct) }}%</span>
+                    </li>
+                    {% else %}
+                    <li><span>No data available</span><span>—</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        {% if total > 0 %}
+        <div class="charts-grid">
+            <div class="chart-card card-3d">
+                <h3>Sentiment Distribution</h3>
+                <div class="chart-wrapper">
+                    <canvas id="sentimentChart" aria-label="Sentiment Distribution Chart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card card-3d">
+                <h3>Feedback Categories</h3>
+                <div class="chart-wrapper">
+                    <canvas id="categoryChart" aria-label="Feedback Categories Chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback-table-section card-3d">
+            <div class="table-header">
+                <h3>Recent Submissions</h3>
+                <div>
+                    <a href="{{ url_for('main.export_aspects_csv') }}" class="btn btn-secondary btn-export interactive-3d">
+                        <span class="icon">↓</span> Export Aspects
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="feedback-table" id="feedbackTable" aria-describedby="table-desc">
+                    <caption id="table-desc" class="sr-only">Recent feedback submissions with sentiment analysis</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Feedback</th>
+                            <th scope="col">Overall</th>
+                            <th scope="col">Aspects Detected</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for f in feedbacks %}
+                        <tr class="feedback-row">
+                            <td class="td-id">#{{ f.id }}</td>
+                            <td class="td-date">{{ f.created_at.strftime('%Y-%m-%d') }}</td>
+                            <td class="td-text" title="{{ f.feedback_text }}">{{ f.feedback_text }}</td>
+                            <td class="td-sentiment">
+                                <span class="badge badge-{{ f.sentiment.lower() }}">{{ f.sentiment }}</span>
+                            </td>
+                            <td>
+                                {% if f.aspects %}
+                                    {% for a in f.aspects %}
+                                    <div>
+                                        <strong style="color: {% if a.sentiment == 'Positive' %}var(--success-text){% elif a.sentiment == 'Negative' %}var(--danger-text){% else %}var(--neutral-text){% endif %};">
+                                            {{ a.aspect_name }}
+                                        </strong> ({{ a.sentiment }})
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <span style="font-size: 0.8rem; color: var(--text-secondary); opacity: 0.6;">None detected</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No feedback data available</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-state card-3d">
+            <h3>No feedback data available yet.</h3>
+            <p>Once students start submitting feedback, analytics will appear here.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{% if total > 0 %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const sentimentData = {
+        positive: {{ positive }},
+        neutral: {{ neutral }},
+        negative: {{ negative }}
+    };
+
+    const feedbacks = [
+        {% for f in feedbacks %}
+        { category: "{{ f.category }}" },
+        {% endfor %}
+    ];
+</script>
+{% endif %}
+{% endblock %}

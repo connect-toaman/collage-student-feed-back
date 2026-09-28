@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Admin Login - EduFeedback AI{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container-main login-container">
+        <div class="card login-card card-3d">
+            <h2>Admin Login</h2>
+            <p class="subtitle">Enter your credentials to access the analytics dashboard.</p>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="flash-messages" role="alert">
+                    {% for message in messages %}
+                    <div class="flash-message error">
+                        <span class="icon">⚠️</span> {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('main.admin_login') }}" method="POST" class="login-form">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input-group">
+                        <input type="password" id="password" name="password" required class="input">
+                        <button type="button" class="btn-toggle-password" id="togglePassword" aria-label="Toggle password visibility">Show</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full btn-lg interactive-3d">Login</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

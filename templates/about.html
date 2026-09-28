@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}About - EduFeedback AI{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container-main about-container">
+        <header class="page-header">
+            <h2>About the Project</h2>
+            <p class="subtitle">College Student Feedback Sentiment Analysis</p>
+        </header>
+
+        <section class="about-section card card-3d">
+            <h3>What is the purpose?</h3>
+            <p>The application uses Natural Language Processing (NLP) and machine learning to automatically classify written student feedback into <strong>Positive</strong>, <strong>Neutral</strong>, and <strong>Negative</strong> categories. This helps educational institutions quickly gauge student satisfaction across various departments and services without manually reading thousands of responses.</p>
+        </section>
+
+        <section class="about-section">
+            <h3>Technology Stack</h3>
+            <div class="tech-grid">
+                <div class="tech-card interactive-3d" tabindex="0" role="button">Python</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">Flask</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">Scikit-learn</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">NLTK</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">TF-IDF</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">Logistic Regression</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">SQLAlchemy</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">PostgreSQL</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">HTML5</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">CSS3</div>
+                <div class="tech-card interactive-3d" tabindex="0" role="button">Vanilla JavaScript</div>
+            </div>
+        </section>
+
+        <section class="about-section card card-3d">
+            <h3>Processing Pipeline</h3>
+            <div class="pipeline-visual">
+                <div class="pipeline-step card-3d" tabindex="0" role="button">
+                    <h4>Student Feedback</h4>
+                    <p>Raw text input submitted by the user.</p>
+                </div>
+                <div class="pipeline-arrow">↓</div>
+                <div class="pipeline-step card-3d" tabindex="0" role="button">
+                    <h4>Text Preprocessing</h4>
+                    <p>Noise removal, tokenization, lemmatization, and negation preservation using NLTK.</p>
+                </div>
+                <div class="pipeline-arrow">↓</div>
+                <div class="pipeline-step card-3d" tabindex="0" role="button">
+                    <h4>TF-IDF</h4>
+                    <p>Vectorizing the text to evaluate term frequency across the dataset.</p>
+                </div>
+                <div class="pipeline-arrow">↓</div>
+                <div class="pipeline-step card-3d" tabindex="0" role="button">
+                    <h4>Logistic Regression</h4>
+                    <p>A trained statistical model calculates the probability of each class.</p>
+                </div>
+                <div class="pipeline-arrow">↓</div>
+                <div class="pipeline-step card-3d" tabindex="0" role="button">
+                    <h4>Sentiment Classification</h4>
+                    <p>The highest probability determines the final predicted sentiment.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

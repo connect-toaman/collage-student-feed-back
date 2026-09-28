@@ -1,0 +1,56 @@
+{
+    "Teachers / Faculty": [
+        "teacher", "teachers", "professor", "professors", "faculty", "faculty members", "lecturer", "lecturers", "prof"
+    ],
+    "Teaching Quality": [
+        "teaching", "explanation", "lecture", "lectures", "instruction"
+    ],
+    "Course Content": [
+        "course", "subject", "topic", "topics", "material", "syllabus", "content"
+    ],
+    "Curriculum": [
+        "curriculum", "program", "degree"
+    ],
+    "Laboratory / Lab Equipment": [
+        "lab", "laboratory", "lab equipment", "laboratory equipment", "chemicals", "apparatus"
+    ],
+    "Classrooms": [
+        "class", "classroom", "classrooms", "lecture hall"
+    ],
+    "Library": [
+        "library", "books", "reading room"
+    ],
+    "Internet / Wi-Fi": [
+        "internet", "wifi", "wi-fi", "network", "internet connection"
+    ],
+    "Infrastructure / Facilities": [
+        "infrastructure", "building", "facilities", "facility", "campus"
+    ],
+    "Examination": [
+        "exam", "exams", "examination", "midterm", "final", "test", "tests", "quiz", "quizzes", "grading", "marks"
+    ],
+    "Assignments": [
+        "assignment", "assignments", "homework", "project", "projects"
+    ],
+    "Administration": [
+        "administration", "admin", "management", "staff", "office"
+    ],
+    "Hostel / Accommodation": [
+        "hostel", "dorm", "accommodation", "room"
+    ],
+    "Canteen / Cafeteria": [
+        "canteen", "cafeteria", "food", "mess", "dining"
+    ],
+    "Extracurricular / Sports": [
+        "sports", "extracurricular", "club", "clubs", "activities", "gym"
+    ],
+    "Fees / Finance": [
+        "fee", "fees", "cost", "expensive", "financial"
+    ],
+    "Placement / Career Services": [
+        "placement", "placements", "career", "job", "internship", "interviews"
+    ],
+    "Student Support": [
+        "support", "ta", "teaching assistant", "tutor", "help"
+    ]
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EduFeedback AI{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="{{ url_for('main.index') }}" class="logo" aria-label="EduFeedback AI Home">EduFeedback AI</a>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+                <span class="hamburger" aria-hidden="true"></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}" {% if request.endpoint == 'main.index' %}class="active" aria-current="page"{% endif %}>Home</a></li>
+                <li><a href="{{ url_for('main.feedback') }}" {% if request.endpoint == 'main.feedback' %}class="active" aria-current="page"{% endif %}>Submit Feedback</a></li>
+                <li><a href="{{ url_for('main.about') }}" {% if request.endpoint == 'main.about' %}class="active" aria-current="page"{% endif %}>About</a></li>
+                {% if session.get('admin_logged_in') %}
+                <li><a href="{{ url_for('main.dashboard') }}" {% if request.endpoint == 'main.dashboard' %}class="active" aria-current="page"{% endif %}>Dashboard</a></li>
+                <li>
+                    <form action="{{ url_for('main.admin_logout') }}" method="POST" style="display: inline;">
+                        <button type="submit" class="nav-logout-btn">Logout</button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('main.admin_login') }}" {% if request.endpoint == 'main.admin_login' %}class="active" aria-current="page"{% endif %}>Admin</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content" id="main-content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>College Student Feedback Sentiment Analysis</h3>
+                <p>NLP + Machine Learning based feedback analysis system</p>
+                <span class="academic-badge">Academic Project</span>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.feedback') }}">Submit Feedback</a></li>
+                    <li><a href="{{ url_for('main.about') }}">About</a></li>
+                    <li><a href="{{ url_for('main.admin_login') }}">Admin</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 EduFeedback AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

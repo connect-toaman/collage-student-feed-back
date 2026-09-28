@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Analysis Result - EduFeedback AI{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container-main result-container">
+        <div class="result-card card-3d">
+            <header class="result-header">
+                <h2>Your Feedback Analysis</h2>
+                <div>
+                    <h4>Overall Sentiment</h4>
+                    <div class="sentiment-badge-large state-{{ absa_result.overall.lower() }} interactive-3d">{{ absa_result.overall.upper() }}</div>
+
+                    <p>
+                        {% if absa_result.overall == 'Mixed' %}
+                        The feedback contains both positive and negative aspects.
+                        {% elif absa_result.overall == 'Positive' %}
+                        The meaningful aspects of this feedback are predominantly positive.
+                        {% elif absa_result.overall == 'Negative' %}
+                        The meaningful aspects of this feedback are predominantly negative.
+                        {% else %}
+                        The feedback is primarily factual, neutral, or does not indicate strong sentiment.
+                        {% endif %}
+                    </p>
+                </div>
+            </header>
+
+            <hr>
+
+            <div class="aspect-analysis">
+                <h3>ASPECT ANALYSIS</h3>
+
+                {% for aspect in absa_result.aspects %}
+                <div class="aspect-card card-3d state-{{ aspect.sentiment.lower() }}" tabindex="0" role="button">
+                    <div class="aspect-card-header">
+                        <h4>
+                            {% if 'Teacher' in aspect.aspect or 'Faculty' in aspect.aspect %}👨‍🏫{% elif 'Lab' in aspect.aspect %}🧪{% elif 'Library' in aspect.aspect %}📚{% elif 'Internet' in aspect.aspect %}📶{% else %}📌{% endif %}
+                            {{ aspect.aspect }}
+                        </h4>
+                        <span class="aspect-sentiment {{ aspect.sentiment.lower() }} interactive-3d">{{ aspect.sentiment }}</span>
+                    </div>
+                    <div class="aspect-confidence {% if aspect.confidence < 0.6 %}low{% endif %}">
+                        {{ "%.0f"|format(aspect.confidence * 100) }}% confidence
+                        {% if aspect.confidence < 0.6 %}
+                        &nbsp;&mdash;&nbsp;<span>Low confidence</span>
+                        {% endif %}
+                    </div>
+                    <div class="aspect-context">
+                        "{{ aspect.context }}"
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+            <div class="document-level-model card-3d">
+                <h3>DOCUMENT-LEVEL MODEL</h3>
+                <div class="sentiment interactive-3d" style="color: {% if sentiment == 'Positive' %}var(--success-text){% elif sentiment == 'Negative' %}var(--danger-text){% else %}var(--neutral-text){% endif %};">
+                    {{ sentiment }}
+                </div>
+                <div class="confidence">{{ "%.0f"|format(confidence * 100) }}% confidence</div>
+                {% if confidence < 0.6 %}
+                <p class="warning">Low confidence — interpret with caution.</p>
+                {% endif %}
+            </div>
+
+            <div class="action-buttons">
+                <a href="{{ url_for('main.feedback') }}" class="btn btn-primary interactive-3d">Analyze Another Feedback</a>
+                <a href="{{ url_for('main.index') }}" class="btn btn-secondary interactive-3d">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

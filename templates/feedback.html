@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Submit Feedback - EduFeedback AI{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container-main form-page-container">
+        <header class="page-header">
+            <h2>Submit Your Feedback</h2>
+            <p>Your honest thoughts help improve the institution.</p>
+        </header>
+
+        <div class="card form-card card-3d">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="flash-messages" role="alert">
+                    {% for message in messages %}
+                    <div class="flash-message error">
+                        <span class="icon">⚠️</span> {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('main.predict') }}" method="POST" id="feedbackForm" novalidate>
+                <div class="form-group">
+                    <label for="student_name">Student Name</label>
+                    <div class="helper-text">Optional — you can submit anonymously.</div>
+                    <input type="text" id="student_name" name="student_name" placeholder="E.g. Jane Doe" class="input">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="department">Department <span class="required" aria-hidden="true">*</span></label>
+                        <select id="department" name="department" required aria-required="true" class="input">
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Mechanical">Mechanical</option>
+                            <option value="Civil">Civil</option>
+                            <option value="Electrical">Electrical</option>
+                            <option value="Management">Management</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div class="field-error" id="department-error">Please select a department.</div>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="category">Feedback Category <span class="required" aria-hidden="true">*</span></label>
+                        <select id="category" name="category" required aria-required="true" class="input">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Course">Course</option>
+                            <option value="Infrastructure">Infrastructure</option>
+                            <option value="Library">Library</option>
+                            <option value="Laboratory">Laboratory</option>
+                            <option value="Hostel">Hostel</option>
+                            <option value="Canteen">Canteen</option>
+                            <option value="Administration">Administration</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div class="field-error" id="category-error">Please select a category.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback_text">Feedback <span class="required" aria-hidden="true">*</span></label>
+                    <textarea id="feedback_text" name="feedback_text" rows="6" required aria-required="true"
+                        placeholder="Example: The laboratory facilities are good, but the computers need regular maintenance." class="input"></textarea>
+                    <div class="textarea-footer">
+                        <div class="field-error" id="feedback-error">Please enter your feedback.</div>
+                        <div class="char-counter"><span id="charCount">0</span> / 1000</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary submit-btn btn-lg interactive-3d" id="submitBtn">
+                        <span class="btn-text">Analyze Feedback</span>
+                        <span class="loader hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
